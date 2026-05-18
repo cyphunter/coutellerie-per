@@ -6,6 +6,16 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
 
+  // ─── Custom build ────────────────────────────────────────────────────
+  // Cloudflare Workers Builds lance `npx wrangler deploy` ; wrangler doit
+  // donc régénérer les types des bindings (cf-typegen) puis compiler
+  // OpenNext AVANT d'essayer de packager `.open-next/worker.js`.
+  // `npm run build` = `opennextjs-cloudflare build` qui enchaîne `next build`
+  // + bundling Workers.
+  "build": {
+    "command": "npm run cf-typegen && npm run build"
+  },
+
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
@@ -30,24 +40,26 @@
     }
   ],
 
-  // ─── R2 (médias propres au projet) ───────────────────────────────────
+  // ─── R2 (médias propres au projet) — TEMPORAIREMENT DÉSACTIVÉ ────────
+  // Réactiver après création du bucket :
   //   wrangler r2 bucket create coutellerie-per-media
-  "r2_buckets": [
-    {
-      "binding": "MEDIA_BUCKET",
-      "bucket_name": "coutellerie-per-media"
-    }
-  ],
+  // "r2_buckets": [
+  //   {
+  //     "binding": "MEDIA_BUCKET",
+  //     "bucket_name": "coutellerie-per-media"
+  //   }
+  // ],
 
-  // ─── KV (cache court / config runtime) ───────────────────────────────
+  // ─── KV (cache court / config runtime) — TEMPORAIREMENT DÉSACTIVÉ ────
+  // Réactiver après création du namespace :
   //   wrangler kv namespace create coutellerie-per-kv
-  // → coller l'id retourné ici
-  "kv_namespaces": [
-    {
-      "binding": "KV",
-      "id": "TODO_REPLACE_WITH_REAL_ID"
-    }
-  ],
+  // → coller l'id retourné dans `id` ci-dessous
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "KV",
+  //     "id": "TODO_REPLACE_WITH_REAL_ID"
+  //   }
+  // ],
 
   // ─── Variables d'environnement publiques ─────────────────────────────
   "vars": {

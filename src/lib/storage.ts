@@ -18,9 +18,19 @@ export function getMediaUrl(storagePath: string | null | undefined): string | nu
   return `/media/${cleanPath}`;
 }
 
-export async function getMediaBucket() {
+export async function getMediaBucket(): Promise<R2Bucket> {
   const { env } = await getCloudflareContext({ async: true });
-  return env.MEDIA_BUCKET;
+  // Cast tolérant : tant que le binding R2 reste commenté dans
+  // wrangler.jsonc, `MEDIA_BUCKET` n'est pas dans `CloudflareEnv` et le
+  // typecheck casserait. Quand le binding est réactivé, ce cast reste
+  // compatible.
+  const bucket = (env as unknown as { MEDIA_BUCKET?: R2Bucket }).MEDIA_BUCKET;
+  if (!bucket) {
+    throw new Error(
+      "Binding R2 `MEDIA_BUCKET` absent. Réactiver `r2_buckets` dans wrangler.jsonc puis `wrangler r2 bucket create coutellerie-per-media`.",
+    );
+  }
+  return bucket;
 }
 
 /**
