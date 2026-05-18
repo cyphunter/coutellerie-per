@@ -1,0 +1,62 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "coutellerie-per",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-05-05",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  // ─── D1 (PARTAGÉE freelance-shared) ──────────────────────────────────
+  // Toutes les tables sont préfixées par SITE_ID (cf. src/lib/db/site-id.ts).
+  // À faire UNE FOIS au démarrage de l'agence :
+  //   wrangler d1 create freelance-shared --location=weur
+  // → coller le database_id retourné ici (le même UUID que dans tous
+  //   les autres projets de l'agence).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "freelance-shared",
+      "database_id": "TODO_SAME_SHARED_DB_ID_FOR_ALL_PROJECTS",
+      "migrations_dir": "drizzle/migrations"
+    }
+  ],
+
+  // ─── R2 (médias propres au projet) ───────────────────────────────────
+  //   wrangler r2 bucket create coutellerie-per-media
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_BUCKET",
+      "bucket_name": "coutellerie-per-media"
+    }
+  ],
+
+  // ─── KV (cache court / config runtime) ───────────────────────────────
+  //   wrangler kv namespace create coutellerie-per-kv
+  // → coller l'id retourné ici
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "TODO_REPLACE_WITH_REAL_ID"
+    }
+  ],
+
+  // ─── Variables d'environnement publiques ─────────────────────────────
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://coutellerie-per.fr",
+    "SITE_ID": "coutellerieper",
+    "AUTH_COOKIE_NAME": "coutellerie_per_session"
+  }
+
+  // ─── Secrets (NE PAS METTRE EN CLAIR ICI) ────────────────────────────
+  // wrangler secret put BETTER_AUTH_SECRET
+  // wrangler secret put RESEND_API_KEY
+}

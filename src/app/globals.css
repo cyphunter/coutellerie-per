@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  /* ─── Couleurs Coutellerie Per (mode sombre artisan) ──────────
+   * Palette inspirée d'un atelier au crépuscule : noyer huilé,
+   * cuir patiné, cuivre de forge incandescent.
+   * `paper` reste la sémantique de "fond standard" et `ink` celle
+   * de "encre lisible par-dessus" — sauf que tout est inversé en
+   * teintes sombres. Les contrastes ont été vérifiés WCAG AA.
+   */
+  --color-paper: #1a1209;       /* fond standard, noyer huilé sombre */
+  --color-paper-deep: #110a04;  /* sections alternées, encore plus profond */
+  --color-ink: #f0e4d2;         /* texte principal, crème chaude */
+  --color-ink-soft: #c9b89c;    /* texte secondaire */
+  --color-muted: #a89684;       /* texte muet (taupe doré) — AA sur paper */
+  --color-brand: #2a1f17;       /* surface élevée, cuir d'écorce */
+  --color-brand-accent: #d4894a;       /* cuivre forge éclat — AA sur paper */
+  --color-brand-accent-soft: #e9b078;  /* cuivre clair, focus / hover */
+  --color-rule: #3a2c1f;        /* bordure subtile chaude */
+  --color-success: #6ea255;
+  --color-warning: #d4a14a;
+  --color-error: #c95945;
+
+  /* ─── Typographies ──────────────────────────────────────────── */
+  --font-body: var(--font-body), "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display), "Cormorant Garamond", "Garamond", Georgia, serif;
+
+  /* ─── Échelle typographique (ratio 1.25) ────────────────────── */
+  --text-display-xl: clamp(2.75rem, 4vw + 1rem, 4.75rem);
+  --text-display-lg: clamp(2.25rem, 3vw + 1rem, 3.5rem);
+  --text-display-md: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+
+  /* ─── Radius ────────────────────────────────────────────────── */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-pill: 9999px;
+
+  /* ─── Shadows ─────────────────────────────────────────────────
+   * En thème sombre, l'ombre noire classique disparaît. On la
+   * combine avec un léger contour clair pour matérialiser les
+   * surfaces élevées sur fond noyer.
+   */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.45), 0 0 0 1px rgb(240 228 210 / 0.04);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(240 228 210 / 0.05);
+  --shadow-lg: 0 16px 40px -8px rgb(0 0 0 / 0.7), 0 0 0 1px rgb(240 228 210 / 0.06);
+}
+
+/* ─── Reset & base ─────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    line-height: 1.65;
+    text-wrap: pretty;
+    font-feature-settings: "kern", "liga", "ss01";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    font-weight: 500;
+  }
+
+  /* Focus visible global */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--color-brand-accent);
+    color: var(--color-paper);
+  }
+
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ─── Composants utilitaires ──────────────────────────────────── */
+@layer components {
+  /* Filet décoratif (séparateur artisanal) */
+  .rule-ornament {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-brand-accent);
+  }
+
+  .rule-ornament::before,
+  .rule-ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-rule),
+      transparent
+    );
+  }
+
+  /* Eyebrow (sur-titre majuscule) */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand-accent);
+  }
+
+  /* Animation discrète d'entrée */
+  .fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
