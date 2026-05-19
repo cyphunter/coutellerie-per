@@ -25,20 +25,20 @@
     "enabled": true
   },
 
-  // ─── D1 (PARTAGÉE freelance-shared) ──────────────────────────────────
+  // ─── D1 (PARTAGÉE freelance-shared) — TEMPORAIREMENT DÉSACTIVÉ ───────
   // Toutes les tables sont préfixées par SITE_ID (cf. src/lib/db/site-id.ts).
-  // À faire UNE FOIS au démarrage de l'agence :
+  // Réactiver quand le site aura besoin de DB (auth, back-office, etc.) :
   //   wrangler d1 create freelance-shared --location=weur
   // → coller le database_id retourné ici (le même UUID que dans tous
   //   les autres projets de l'agence).
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "freelance-shared",
-      "database_id": "TODO_SAME_SHARED_DB_ID_FOR_ALL_PROJECTS",
-      "migrations_dir": "drizzle/migrations"
-    }
-  ],
+  // "d1_databases": [
+  //   {
+  //     "binding": "DB",
+  //     "database_name": "freelance-shared",
+  //     "database_id": "TODO_SAME_SHARED_DB_ID_FOR_ALL_PROJECTS",
+  //     "migrations_dir": "drizzle/migrations"
+  //   }
+  // ],
 
   // ─── R2 (médias propres au projet) — TEMPORAIREMENT DÉSACTIVÉ ────────
   // Réactiver après création du bucket :
