@@ -6,15 +6,11 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
 
-  // ─── Custom build ────────────────────────────────────────────────────
-  // Cloudflare Workers Builds lance `npx wrangler deploy` ; wrangler doit
-  // donc régénérer les types des bindings (cf-typegen) puis compiler
-  // OpenNext AVANT d'essayer de packager `.open-next/worker.js`.
-  // `npm run build` = `opennextjs-cloudflare build` qui enchaîne `next build`
-  // + bundling Workers.
-  "build": {
-    "command": "npm run cf-typegen && npm run build"
-  },
+  // Le build est piloté par Workers Builds (dashboard) :
+  //   Build command  = npm run build  (= opennextjs-cloudflare build)
+  //   Deploy command = npx wrangler deploy  (détecte OpenNext)
+  // Le type CloudflareEnv est maintenu à la main dans cloudflare-secrets.d.ts
+  // (plus de cf-typegen automatique pour éviter les boucles en CI).
 
   "assets": {
     "binding": "ASSETS",
