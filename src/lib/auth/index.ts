@@ -13,9 +13,12 @@ import * as schema from "@/lib/db/schema";
  *
  * Cf. CONVENTIONS.md §13.
  */
+// Binding D1 temporairement désactivé dans wrangler.jsonc (cf. src/lib/db/index.ts).
+type EnvWithDb = CloudflareEnv & { DB: D1Database };
+
 function buildAuth() {
   const { env } = getCloudflareContext();
-  const db = drizzle(env.DB, { schema });
+  const db = drizzle((env as EnvWithDb).DB, { schema });
 
   return betterAuth({
     baseURL: env.NEXT_PUBLIC_SITE_URL,
