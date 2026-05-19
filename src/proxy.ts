@@ -10,7 +10,11 @@ import type { Session } from "@/lib/auth";
  *  2. Protéger /admin via Better-Auth
  *
  * Note : les headers de sécurité sont émis via next.config.ts → headers().
+ *
+ * Runtime Edge obligatoire — Next 16 met le proxy/middleware en Node.js par
+ * défaut, mais OpenNext sur Cloudflare exige Edge.
  */
+export const runtime = "edge";
 
 const LEGACY_REDIRECTS: Record<string, string> = {
   // "/ancien-chemin": "/nouveau-chemin",
